@@ -29,15 +29,9 @@ do
       $($PSQL "INSERT INTO teams(name) VALUES ('$OPPONENT')")
       # OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE team=$OPPONENT");
     fi
+    WINNER_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$WINNER'");
+    OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$OPPONENT'");
+    $($PSQL "INSERT INTO games(winner_id, opponent_id, winner_goals, opponent_goals, year, round) VALUES ($WINNER_ID, $OPPONENT_ID,$WINNER_GOALS, $OPPONENT_GOALS, $YEAR, '$ROUND')")
 
-    WINNER_ID=$($PSQL "SELECT team_id FROM teams WHERE name=$WINNER");
-    OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$OPPONENT' ");
-    $($PSQL "INSERT INTO games(winner_id, opponent_id, winner_goals, opponent_goals, year, round) VALUES ($WINNER_ID, $OPPONENT_ID,$WINNER_GOALS, $OPPONENT_GOALS, $YEAR, '$ROUND' )")
-    
   fi
-done
-
-cat games.csv | while IFS="," read YEAR ROUND WINNER OPPONENT WINNER_GOALS OPPONENT_GOALS
-do
-
 done
